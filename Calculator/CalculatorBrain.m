@@ -20,7 +20,8 @@
 
 
 
-- (NSMutableArray *)programStack{
+- (NSMutableArray *)programStack
+{
     if(_programStack==nil) {
         _programStack = [[NSMutableArray alloc] init];
     }
@@ -46,8 +47,9 @@
     return [self.programStack copy];
 }
 
-+ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues
-{NSMutableArray *stack;
++ (double)runProgram:(id)program
+{
+    NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]){
         stack = [program mutableCopy];
     }

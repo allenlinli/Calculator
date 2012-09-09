@@ -14,7 +14,7 @@
 -(double)performOperation:(NSString *)operation;
 - (void) clearStack;
 
-@property (readonly) id program;
+@property (nonatomic, readonly) id program;
 + (double)runProgram:(id)program;
 + (NSString *)descriptionOfProgram:(id)program;
 

@@ -18,13 +18,15 @@
 
 @implementation CalculatorViewController
 
+/*
 @synthesize display;
 @synthesize display2;
 @synthesize userIsInTheMiddleOfEnteringANumber;
 @synthesize IsAfterFloatPoint;
 @synthesize display2LastPressed;
 @synthesize brain = _brain;
-
+*/
+ 
 - (CalculatorBrain *)brain
 {
     if(!_brain) _brain = [[CalculatorBrain alloc] init];
@@ -48,15 +50,15 @@
 }
 
 - (IBAction)floatPointPressed:(id)sender {
-    if (IsAfterFloatPoint){
+    if (_IsAfterFloatPoint){
         NSLog(@"Can't type float point twice!");
     }
     else if(self.userIsInTheMiddleOfEnteringANumber){
-        IsAfterFloatPoint = YES;
+        _IsAfterFloatPoint = YES;
         self.display.text = [self.display.text stringByAppendingString:@"."];
     }
     else{
-        IsAfterFloatPoint = YES;
+        _IsAfterFloatPoint = YES;
         self.display.text = @"0.";
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
@@ -81,7 +83,7 @@
     self.display2.text = @"0";
     self.display.text = @"0";
     [self.brain clearStack];
-    display2LastPressed=0;
+    _display2LastPressed=0;
 }
 
 - (IBAction)displayAllOperations:(id)sender {
@@ -102,35 +104,35 @@
     }
                
     if (digit) {
-        if (display2LastPressed==0) {
+        if (_display2LastPressed==0) {
             if([@"0" isEqualToString:digit]){
                 self.display2.text = @"0";
             }
             else{
                 self.display2.text = digit;
-                    display2LastPressed=1;
+                    _display2LastPressed=1;
             }
         }
-        else if (display2LastPressed==1){
+        else if (_display2LastPressed==1){
             self.display2.text = [self.display2.text stringByAppendingString:digit];
         }
-        else if (display2LastPressed==20 || display2LastPressed==20){
+        else if (_display2LastPressed==20 || _display2LastPressed==20){
             self.display2.text = [self.display2.text stringByAppendingString:digit];
-            display2LastPressed=21;
+            _display2LastPressed=21;
         }
     }
     else if(dot){
-        if(display2LastPressed==20 || display2LastPressed==21){
+        if(_display2LastPressed==20 || _display2LastPressed==21){
             //do nothing
             NSLog(@"can not enter dot twice");
         }
-        else if(display2LastPressed==1){
+        else if(_display2LastPressed==1){
             self.display2.text = [self.display2.text stringByAppendingString:@"."];
-            display2LastPressed=21;
+            _display2LastPressed=21;
         }
-        else if(display2LastPressed==0){
+        else if(_display2LastPressed==0){
             self.display2.text = @"0.";
-            display2LastPressed=21;
+            _display2LastPressed=21;
         }
     }
     else if(operation){

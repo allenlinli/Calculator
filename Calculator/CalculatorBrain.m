@@ -16,8 +16,6 @@
 
 @implementation CalculatorBrain
 
-@synthesize programStack = _programStack;
-
 
 
 - (NSMutableArray *)programStack

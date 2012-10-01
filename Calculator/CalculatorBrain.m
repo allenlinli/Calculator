@@ -26,8 +26,10 @@
     return _programStack;
 }
 
+
 - (void) pushOperand:(double)operand{
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
+    
 }
 
 - (void) pushVariableOperand:(NSString *)variableOperand{

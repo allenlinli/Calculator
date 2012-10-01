@@ -64,7 +64,11 @@
 }
 
 - (IBAction)enterPressed {
-    [self.brain pushOperand:[self.display.text doubleValue]];
+    if ([self.display.text isKindOfClass:[NSNumber class]]) {
+        [self.brain pushOperand:[self.display.text doubleValue]];
+    }else{
+        [self.brain pushVariableOperand:self.display.text];
+    }
     //self.userIsInTheMiddleOfEnteringANumber = NO;
     //self.IsAfterFloatPoint = NO;
     self.displayLastPressed=0;

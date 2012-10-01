@@ -89,6 +89,7 @@
     self.display.text = @"0";
     [self.brain clearStack];
     _display2LastPressed=0;
+    _IsAfterFloatPoint=NO;
 }
 
 - (IBAction)displayAllOperations:(id)sender {

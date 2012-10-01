@@ -51,6 +51,7 @@
 
 - (IBAction)floatPointPressed:(id)sender {
     if (_IsAfterFloatPoint){
+        //do nothing
         NSLog(@"Can't type float point twice!");
     }
     else if(self.userIsInTheMiddleOfEnteringANumber){
@@ -73,6 +74,7 @@
 - (IBAction)operationPressed:(id)sender {
     if (self.userIsInTheMiddleOfEnteringANumber){
         [self enterPressed];
+         self.userIsInTheMiddleOfEnteringANumber = NO;
     }
     NSString *operation = [sender currentTitle];
     double result = [self.brain performOperation:operation];

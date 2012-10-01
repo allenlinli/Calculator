@@ -65,7 +65,7 @@
 
 - (IBAction)enterPressed {
     if ([self.display.text isEqualToString:@"x"]
-        || [self.display.text isEqualToString:@"a"]
+        || [self.display.text isEqualToString:@"a"]  //?? can be improved
         || [self.display.text isEqualToString:@"b"]) {
         [self.brain pushVariableOperand:self.display.text];
     }

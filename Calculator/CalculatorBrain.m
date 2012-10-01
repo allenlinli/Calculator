@@ -39,12 +39,30 @@
 - (double) performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    return [CalculatorBrain runProgram:self.program];
+    return [CalculatorBrain runProgram:self.program ];
 }
 
 - (id) program
 {
     return [self.programStack copy];
+}
+
+//?? why class method?
++ (NSMutableArray *)turnVariablesIntoNumbers: (NSMutableArray *) stack
+{
+    return stack;// not completed
+}
+
++ (double)runProgram:(id)program
+ usingVariableValues:(NSDictionary *)variableValues
+{
+    NSMutableArray *stack;
+    if ([program isKindOfClass:[NSArray class]]){
+        stack = [program mutableCopy];
+    }
+    NSMutableArray *stackUsingVariableValues = [stack mutableCopy];
+    stack = [CalculatorBrain turnVariablesIntoNumbers:stackUsingVariableValues];
+    return [self popOperandOffStack:stack];
 }
 
 + (double)runProgram:(id)program
@@ -86,8 +104,6 @@
             result = sqrt([self popOperandOffStack:stack]);
         } else if([@"π" isEqualToString:operation]){
             result = [self popOperandOffStack:stack];  // not complete
-        } else if([@"x" isEqualToString:operation]){
-            //result = []
         }
     }
    

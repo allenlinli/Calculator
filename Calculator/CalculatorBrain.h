@@ -13,9 +13,11 @@
 -(void)pushOperand:(double)operand;
 - (void)pushVariableOperand:(NSString *)variableOperand;
 -(double)performOperation:(NSString *)operation;
-- (void) clearStack;
+
 
 @property (nonatomic, readonly) id program;
+- (void) clearStack;
+
 + (double)runProgram:(id)program;
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues;

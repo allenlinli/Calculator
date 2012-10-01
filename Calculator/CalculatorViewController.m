@@ -43,6 +43,13 @@
     }
 }
 
+
+- (IBAction)variablesPressed:(UIButton *)sender {
+    NSString *variable = [sender currentTitle];
+    self.display.text = variable;
+    //not completed
+}
+
 - (IBAction)floatPointPressed:(id)sender {
     //if (_IsAfterFloatPoint){
     if (self.displayLastPressed==20 ||self.displayLastPressed==21) {

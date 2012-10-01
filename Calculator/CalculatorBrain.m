@@ -47,11 +47,6 @@
     return [self.programStack copy];
 }
 
-//?? why class method?
-+ (NSMutableArray *)turnVariablesIntoNumbers: (NSMutableArray *) stack
-{
-    return stack;// not completed
-}
 
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues
@@ -60,8 +55,14 @@
     if ([program isKindOfClass:[NSArray class]]){
         stack = [program mutableCopy];
     }
-    NSMutableArray *stackUsingVariableValues = [stack mutableCopy];
-    stack = [CalculatorBrain turnVariablesIntoNumbers:stackUsingVariableValues];
+    //replace with the dictionary
+    //!! it may can be improved
+    NSUInteger stackLengh = [stack count];
+    for (NSUInteger i=0; i<stackLengh; i++) {
+        if (![[stack objectAtIndex:i] isKindOfClass:[NSNumber class]]) {
+            [stack replaceObjectAtIndex:i withObject:[variableValues objectForKey:[stack objectAtIndex:i]]];
+        }
+    }
     return [self popOperandOffStack:stack];
 }
 

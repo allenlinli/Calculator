@@ -398,6 +398,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="variablesPressed:" destination="2" eventType="touchUpInside" id="9gF-1G-gQh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OTP-vL-d8Y">
                                 <rect key="frame" x="20" y="371" width="85" height="38"/>

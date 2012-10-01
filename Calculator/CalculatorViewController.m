@@ -11,22 +11,13 @@
 
 @interface CalculatorViewController()
 @property (nonatomic, strong) CalculatorBrain *brain;
-//@property (nonatomic) BOOL IsAfterFloatPoint;
-//@property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
 @property NSInteger display2LastPressed; //0 be initial, 1 be digit, 20 be dot, 21 be digit after dot 
 @property NSInteger displayLastPressed;  //0 be initial, 1 be digit, 20 be dot, 21 be digit after dot 
 @end
 
 @implementation CalculatorViewController
 
-/*
-@synthesize display;
-@synthesize display2;
-@synthesize userIsInTheMiddleOfEnteringANumber;
-@synthesize IsAfterFloatPoint;
-@synthesize display2LastPressed;
-@synthesize brain = _brain;
-*/
+
  
 - (CalculatorBrain *)brain
 {
@@ -36,21 +27,19 @@
 
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = [sender currentTitle];
-    if([self.display.text isEqualToString:@"0"]){ //initial zero
+    //initial zero, or intial but with digits covered
+    if(self.displayLastPressed==0){
         if ([digit isEqualToString:@"0"]) {
-            //do nothing
+            NSLog(@"extra 0, do nothing.");
         }
         else{
             self.display.text = digit;
             self.displayLastPressed = 1;
         }
     }
-    else if(self.displayLastPressed>0){  //self.userIsInTheMiddleOfEnteringANumber
+    //self.userIsInTheMiddleOfEnteringANumber
+    else if(self.displayLastPressed>0){
         self.display.text = [self.display.text stringByAppendingString:digit];
-    } else {  //also new digit, but with last typed digits covered
-        self.display.text = digit;
-        //self.userIsInTheMiddleOfEnteringANumber = YES;
-       self.displayLastPressed=1;
     }
 }
 
@@ -62,7 +51,8 @@
     }
     //else if(self.userIsInTheMiddleOfEnteringANumber){
     else if(self.displayLastPressed==1){
-        self.displayLastPressed=20; //_IsAfterFloatPoint = YES;
+        self.displayLastPressed=20;
+        //_IsAfterFloatPoint = YES;
         self.display.text = [self.display.text stringByAppendingString:@"."];
     }
     else if(self.displayLastPressed==0){
@@ -90,7 +80,9 @@
         NSLog(@"Can't push 0 so far");
         //?? need to be improved
         return;
-    }else { // inTheMiddleOfEnteringNumber
+    }
+    // inTheMiddleOfEnteringNumber
+    else {
         [self enterPressed];
         self.displayLastPressed=0;
         NSString *operation = [sender currentTitle];

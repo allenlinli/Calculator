@@ -92,11 +92,10 @@
 }
 
 - (IBAction)clearEverything {
+    [self.brain clearStack];
     self.display2.text = @"0";
     self.display.text = @"0";
-    [self.brain clearStack];
     self.display2LastPressed=0;
-    //_IsAfterFloatPoint=NO;
     self.displayLastPressed=0;
 }
 
@@ -156,13 +155,6 @@
     }
 }
 
- 
-/*
- Bug: can't make space, don't know which event first?
- how to use userIsInTheMiddleOfEnteringANumber?
-
- 
- */
 
 
 @end

@@ -84,28 +84,42 @@
     else{
         [self.brain pushOperand:[self.display.text doubleValue]];
     }
-    
     //[self.brain pushOperand:[self.display.text doubleValue]];
     //self.userIsInTheMiddleOfEnteringANumber = NO;
     //self.IsAfterFloatPoint = NO;
-    self.displayLastPressed=0;
+}
+
+//?? class method or instance method?
+- (int)differentiateOperation: (NSString*)operation
+//return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation
+// and -1 for operand, -2 for dot 
+{
+    if([operation isKindOfClass:[NSNumber class]])
+    {
+        return -1;
+    }
+    else{
+        if ([operation isEqualToString:@"sqrt"]) {
+            
+        }
+    }
+    return 0;
 }
 
 - (IBAction)operationPressed:(id)sender {
+    NSString *operation = [sender currentTitle];
     if (self.displayLastPressed==20) {
         NSLog(@"Can't use in uncompleted digit!");
         return;
     }
-    else if (self.displayLastPressed==0) {
-        NSLog(@"Can't push 0 so far");
+    else if (self.displayLastPressed==0){
+        NSLog(@"extra operation");
         //?? need to be improved
         return;
     }
     // inTheMiddleOfEnteringNumber
     else {
         [self enterPressed];
-        self.displayLastPressed=0;
-        NSString *operation = [sender currentTitle];
         double result = [self.brain performOperation:operation];
         self.display.text = [NSString stringWithFormat:@"%g", result];
     }

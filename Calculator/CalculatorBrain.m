@@ -12,6 +12,9 @@
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
 @property (nonatomic, strong) NSDictionary *testSet;
+
++ (NSSet *)variablesUsedInProgram:(id)program;
+
 @end
 
 @implementation CalculatorBrain
@@ -29,27 +32,15 @@
 
 - (void) pushOperand:(double)operand{
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
-    
 }
 
 - (void) pushVariableOperand:(NSString *)variableOperand{
     [self.programStack addObject:variableOperand];
 }
 
-- (NSDictionary *)testSet
-{
-    if (!_testSet) _testSet= [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
-    return _testSet;
-}
 
-- (void) setTestSet:(NSDictionary *)testSet withValues:(NSArray *)values
-{
-    NSArray* keys = @[@"x",@"a",@"b"];
-    NSDictionary* testSet2 = [[NSDictionary alloc] initWithObjects:values forKeys:keys];
-    self.testSet = testSet2;
-}
 
-- (double) performOperation:(NSString *)operation
+- (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
     if ([CalculatorBrain variablesUsedInProgram:self.program]==nil) {
@@ -65,7 +56,7 @@
     return [self.programStack copy];
 }
 
-
+/*
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues
 {
@@ -83,7 +74,7 @@
         }
     }
     return [self popOperandOffStack:stack];
-}
+}*/
 
 + (double)runProgram:(id)program
 {
@@ -116,6 +107,19 @@
     }
 }
 
+- (NSDictionary *)testSet
+{
+    if (!_testSet) _testSet= [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
+    return _testSet;
+}
+
+- (void)setTestSet:(NSDictionary *)testSet withValues:(NSArray *)values
+{
+    NSArray* keys = @[@"x",@"a",@"b"];
+    NSDictionary* testSet2 = [[NSDictionary alloc] initWithObjects:values forKeys:keys];
+    self.testSet = testSet2;
+}
+
 + (double) popOperandOffStack:(NSMutableArray *) stack
 {
     double result = 0 ;
@@ -145,7 +149,7 @@
         } else if([@"sqrt" isEqualToString:operation]){
             result = sqrt([self popOperandOffStack:stack]);
         } else if([@"π" isEqualToString:operation]){
-            result = [self popOperandOffStack:stack];  // not complete
+            result = [self popOperandOffStack:stack];  //?? not complete
         }
     }
    

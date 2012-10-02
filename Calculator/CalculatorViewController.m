@@ -91,19 +91,20 @@
         NSLog(@"Can't use in uncompleted digit!");
         return;
     }
+    else {
+        if(self.displayLastPressed!=0) [self enterPressed];
+        double result = [self.brain performOperation:operation];
+        self.display.text = [NSString stringWithFormat:@"%g", result];
+    }
+    
+    /*  //old code//
     else if (self.displayLastPressed==0){
         //if it's 0 or 1 operand operation, it can work
         //?? BUG?
         double result = [self.brain performOperation:operation];
         self.display.text = [NSString stringWithFormat:@"%g", result];
-    }
+    }*/
     // inTheMiddleOfEnteringNumber, ie, self.displayLastPressed==1 or 21
-    else {
-        [self enterPressed];
-        double result = [self.brain performOperation:operation];
-        self.display.text = [NSString stringWithFormat:@"%g", result];
-    }
-    
 }
 
 - (IBAction)clearEverything {

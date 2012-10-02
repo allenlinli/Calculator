@@ -50,6 +50,10 @@
             [operation isEqualToString:@"-"] ||
             [operation isEqualToString:@"*"] ||
             [operation isEqualToString:@"/"])  return 2;
+    else{
+        NSLog(@"bug!!");
+        return -99;
+    }
 }
 
 - (void) pushOperand:(double)operand{

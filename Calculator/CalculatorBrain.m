@@ -56,8 +56,8 @@
     }
 }
 
-- (void) pushOperand:(double)operand{
-    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
+- (void) pushOperand:(NSString*)operand{
+    [self.programStack addObject:operand];
 }
 
 - (void) pushVariableOperand:(NSString *)variableOperand{
@@ -81,7 +81,7 @@
     return [self.programStack copy];
 }
 
-/*
+
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues
 {
@@ -99,7 +99,7 @@
         }
     }
     return [self popOperandOffStack:stack];
-}*/
+}
 
 + (double)runProgram:(id)program
 {

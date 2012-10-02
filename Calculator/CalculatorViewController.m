@@ -103,6 +103,7 @@
         double result = [self.brain performOperation:operation];
         self.display.text = [NSString stringWithFormat:@"%g", result];
     }
+    
 }
 
 - (IBAction)clearEverything {

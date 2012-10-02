@@ -11,7 +11,7 @@
 
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
-
+@property (nonatomic, strong) NSDictionary *testSet;
 @end
 
 @implementation CalculatorBrain
@@ -36,10 +36,28 @@
     [self.programStack addObject:variableOperand];
 }
 
+- (NSDictionary *)testSet
+{
+    if (!_testSet) _testSet= [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
+    return _testSet;
+}
+
+- (void) setTestSet:(NSDictionary *)testSet withValues:(NSArray *)values
+{
+    NSArray* keys = @[@"x",@"a",@"b"];
+    NSDictionary* testSet2 = [[NSDictionary alloc] initWithObjects:values forKeys:keys];
+    self.testSet = testSet2;
+}
+
 - (double) performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    return [CalculatorBrain runProgram:self.program ];
+    if ([CalculatorBrain variablesUsedInProgram:self.program]==nil) {
+        return [CalculatorBrain runProgram:self.program ];
+    }
+    else{
+        return [CalculatorBrain runProgram:self.program usingVariableValues:nil];//not completed
+    }
 }
 
 - (id) program
@@ -59,8 +77,9 @@
     //!! it may can be improved
     NSUInteger stackLengh = [stack count];
     for (NSUInteger i=0; i<stackLengh; i++) {
-        if (![[stack objectAtIndex:i] isKindOfClass:[NSNumber class]]) {
-            [stack replaceObjectAtIndex:i withObject:[variableValues objectForKey:[stack objectAtIndex:i]]];
+        NSObject *obj = [stack objectAtIndex:i];
+        if (![obj isKindOfClass:[NSNumber class]]) {
+            [stack replaceObjectAtIndex:i withObject:[variableValues objectForKey:obj]];
         }
     }
     return [self popOperandOffStack:stack];
@@ -73,6 +92,28 @@
         stack = [program mutableCopy];
     }
     return [self popOperandOffStack:stack];
+}
+
+//?? can I use const?
++ (NSSet *)variablesUsedInProgram:(id) program
+{
+    NSSet * variables = nil;
+    NSMutableArray *stack;
+    NSUInteger stackLengh = [stack count];
+    if (stackLengh==0) {
+        return nil;
+    }
+    else{
+        for (NSUInteger i=0; i<stackLengh; i++) {
+            NSObject *obj = [stack objectAtIndex:i];
+            if (![obj isKindOfClass:[NSNumber class]]) {
+                [variables setByAddingObject:obj];
+                //for debug//
+                NSLog(@"%@",obj);
+            }
+        }
+        return variables;
+    }
 }
 
 + (double) popOperandOffStack:(NSMutableArray *) stack

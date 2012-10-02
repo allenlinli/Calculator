@@ -38,8 +38,13 @@
         }
     }
     //self.userIsInTheMiddleOfEnteringANumber
-    else if(self.displayLastPressed>0){
+    else if(self.displayLastPressed==20 || self.displayLastPressed==21){
         self.display.text = [self.display.text stringByAppendingString:digit];
+        self.displayLastPressed = 21;
+    }
+    else{
+        self.display.text = [self.display.text stringByAppendingString:digit];
+        self.displayLastPressed = 1;
     }
 }
 
@@ -84,7 +89,6 @@
     //self.userIsInTheMiddleOfEnteringANumber = NO;
     //self.IsAfterFloatPoint = NO;
     self.displayLastPressed=0;
-    self.display2LastPressed=0;
 }
 
 - (IBAction)operationPressed:(id)sender {
@@ -126,48 +130,53 @@
     if(intRange.location!=NSNotFound){
         digit = input; 
     }
-    else if ([@"." isEqualToString:input]){
+    else if ([input isEqualToString:@"."]){
         dot = input;
     }
     else{
         operation = input;
     }
-               
+    
     if (digit) {
-        if (_display2LastPressed==0) {
-            if([@"0" isEqualToString:digit]){
-                self.display2.text = @"0";
+        if (self.display2LastPressed==0) {
+            if([digit isEqualToString:@"0"]){
+                NSLog(@"extra 0, do nothing.");
             }
             else{
                 self.display2.text = digit;
-                    _display2LastPressed=1;
+                self.display2LastPressed=1;
             }
         }
-        else if (_display2LastPressed==1){
+        else if (self.display2LastPressed==1){
             self.display2.text = [self.display2.text stringByAppendingString:digit];
         }
-        else if (_display2LastPressed==20 || _display2LastPressed==20){
+        else if (self.display2LastPressed==20 || self.display2LastPressed==21){
             self.display2.text = [self.display2.text stringByAppendingString:digit];
-            _display2LastPressed=21;
+            self.display2LastPressed=21;
         }
     }
     else if(dot){
-        if(_display2LastPressed==20 || _display2LastPressed==21){
-            //do nothing
+        if(self.display2LastPressed==20 || self.display2LastPressed==21){
             NSLog(@"can not enter dot twice");
         }
-        else if(_display2LastPressed==1){
+        else if(self.display2LastPressed==1){
             self.display2.text = [self.display2.text stringByAppendingString:@"."];
-            _display2LastPressed=21;
+            self.display2LastPressed=20;
         }
-        else if(_display2LastPressed==0){
+        else if(self.display2LastPressed==0){
             self.display2.text = @"0.";
-            _display2LastPressed=21;
+            self.display2LastPressed=21;
         }
     }
-    else if(operation){
+    else if(operation && ![operation isEqualToString:@"Enter"]){
+        //?? may can be improved
         self.display2.text = [self.display2.text stringByAppendingString:@" "];
         self.display2.text = [self.display2.text stringByAppendingString:operation];
+        self.display2.text = [self.display2.text stringByAppendingString:@" "];
+    }
+    else if([operation isEqualToString:@"Enter"]){
+        self.display2LastPressed=1;
+        self.display2.text = [self.display2.text stringByAppendingString:@" "];
     }
 }
 

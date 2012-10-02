@@ -33,7 +33,8 @@
 - (int)differentiateOperation: (NSString*)operation
 //return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation, and -1 for operand, -2 for dot
 {
-    if([operation isKindOfClass:[NSNumber class]])  return -1;
+    if([operation doubleValue])  return -1;
+    else if([operation isEqualToString:@"0"]) return -1;
     
     else if([operation isEqualToString:@"."])   return -2;
     
@@ -89,14 +90,22 @@
     if ([program isKindOfClass:[NSArray class]]){
         stack = [program mutableCopy];
     }
-    //replace with the dictionary
+    //provide values
     //!! it may can be improved
     NSUInteger stackLengh = [stack count];
     for (NSUInteger i=0; i<stackLengh; i++) {
-        NSObject *obj = [stack objectAtIndex:i];
-        if (![obj isKindOfClass:[NSNumber class]]) {
-            [stack replaceObjectAtIndex:i withObject:[variableValues objectForKey:obj]];
+        NSString *obj = [stack objectAtIndex:i];
+        double doubleValue;
+        if ([obj doubleValue]!=0) {
+            doubleValue = [obj doubleValue];
         }
+        else if([obj isEqualToString:@"0"]){
+            doubleValue = 0;
+        }
+        else{
+            doubleValue = [[variableValues objectForKey:obj] doubleValue];
+        }
+        [stack replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:doubleValue]];
     }
     return [self popOperandOffStack:stack];
 }

@@ -76,14 +76,8 @@
 }
 
 - (IBAction)enterPressed {
-    if ([self.display.text isEqualToString:@"x"]
-        || [self.display.text isEqualToString:@"a"]  //?? can be improved
-        || [self.display.text isEqualToString:@"b"]) {
-        [self.brain pushVariableOperand:self.display.text];
-    }
-    else{
-        [self.brain pushOperand:[self.display.text doubleValue]];
-    }
+    [self.brain pushOperand:[self.display.text doubleValue]];
+    self.displayLastPressed=0;
     //[self.brain pushOperand:[self.display.text doubleValue]];
     //self.userIsInTheMiddleOfEnteringANumber = NO;
     //self.IsAfterFloatPoint = NO;
@@ -98,11 +92,12 @@
         return;
     }
     else if (self.displayLastPressed==0){
-        NSLog(@"extra operation");
-        //?? need to be improved
-        return;
+        //if it's 0 or 1 operand operation, it can work
+        //?? BUG?
+        double result = [self.brain performOperation:operation];
+        self.display.text = [NSString stringWithFormat:@"%g", result];
     }
-    // inTheMiddleOfEnteringNumber
+    // inTheMiddleOfEnteringNumber, ie, self.displayLastPressed==1 or 21
     else {
         [self enterPressed];
         double result = [self.brain performOperation:operation];

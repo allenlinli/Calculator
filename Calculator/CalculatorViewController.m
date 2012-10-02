@@ -89,22 +89,7 @@
     //self.IsAfterFloatPoint = NO;
 }
 
-//?? class method or instance method?
-- (int)differentiateOperation: (NSString*)operation
-//return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation
-// and -1 for operand, -2 for dot 
-{
-    if([operation isKindOfClass:[NSNumber class]])
-    {
-        return -1;
-    }
-    else{
-        if ([operation isEqualToString:@"sqrt"]) {
-            
-        }
-    }
-    return 0;
-}
+
 
 - (IBAction)operationPressed:(id)sender {
     NSString *operation = [sender currentTitle];

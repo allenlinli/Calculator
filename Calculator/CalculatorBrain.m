@@ -29,6 +29,28 @@
     return _programStack;
 }
 
+//?? class method or instance method?
+- (int)differentiateOperation: (NSString*)operation
+//return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation, and -1 for operand, -2 for dot
+{
+    if([operation isKindOfClass:[NSNumber class]])  return -1;
+    
+    else if([operation isEqualToString:@"."])   return -2;
+    
+    else if([operation isEqualToString:@"sqrt"] ||
+            [operation isEqualToString:@"sin"]  ||
+            [operation isEqualToString:@"cos"])  return 1;
+    
+    else if([operation isEqualToString:@"π"] ||
+            [operation isEqualToString:@"x"] ||
+            [operation isEqualToString:@"a"] ||
+            [operation isEqualToString:@"b"])  return 0;
+    
+    else if([operation isEqualToString:@"+"] ||
+            [operation isEqualToString:@"-"] ||
+            [operation isEqualToString:@"*"] ||
+            [operation isEqualToString:@"/"])  return 2;
+}
 
 - (void) pushOperand:(double)operand{
     [self.programStack addObject:[NSNumber numberWithDouble:operand]];
@@ -37,7 +59,6 @@
 - (void) pushVariableOperand:(NSString *)variableOperand{
     [self.programStack addObject:variableOperand];
 }
-
 
 
 - (double)performOperation:(NSString *)operation

@@ -50,9 +50,17 @@
 #pragma mark -
 #pragma mark Public Methods
 
-- (void)pushOperand:(double)operand
+- (void)pushOperand:(NSString*)operand
 {
-    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
+    if ([operand doubleValue]!=0.0) {
+        [self.programStack addObject:[NSNumber numberWithDouble:[operand doubleValue]]];
+    }
+    else if([operand isEqualToString:@"0"]){
+        [self.programStack addObject:[NSNumber numberWithDouble:[operand doubleValue]]];
+    }
+    else{
+        [self.programStack addObject:operand];
+    }
 }
 
 - (double)performOperation:(NSString *)operation

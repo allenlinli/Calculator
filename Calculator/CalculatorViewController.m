@@ -71,7 +71,7 @@
 }
 
 - (IBAction)enterPressed {
-    [self.brain pushOperand:[self.display.text doubleValue]];
+    [self.brain pushOperand:self.display.text];
     self.displayLastPressed=0;
 }
 

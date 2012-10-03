@@ -11,70 +11,35 @@
 
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
-@property (nonatomic, strong) NSDictionary *testSet;
-
-+ (NSSet *)variablesUsedInProgram:(id)program;
-
+@property (nonatomic, strong) NSDictionary *variablesValue;
 @end
+
+
+#pragma mark -
+#pragma mark Getters and Setters
 
 @implementation CalculatorBrain
 
 
-
 - (NSMutableArray *)programStack
 {
-    if(_programStack==nil) {
+    if(!_programStack) {
         _programStack = [[NSMutableArray alloc] init];
     }
     return _programStack;
 }
 
-//?? class method or instance method?
-- (int)differentiateOperation: (NSString*)operation
-//return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation, and -1 for operand, -2 for dot
+- (NSDictionary *)variablesValue
 {
-    if([operation doubleValue])  return -1;
-    else if([operation isEqualToString:@"0"]) return -1;
-    
-    else if([operation isEqualToString:@"."])   return -2;
-    
-    else if([operation isEqualToString:@"sqrt"] ||
-            [operation isEqualToString:@"sin"]  ||
-            [operation isEqualToString:@"cos"])  return 1;
-    
-    else if([operation isEqualToString:@"π"] ||
-            [operation isEqualToString:@"x"] ||
-            [operation isEqualToString:@"a"] ||
-            [operation isEqualToString:@"b"])  return 0;
-    
-    else if([operation isEqualToString:@"+"] ||
-            [operation isEqualToString:@"-"] ||
-            [operation isEqualToString:@"*"] ||
-            [operation isEqualToString:@"/"])  return 2;
-    else{
-        NSLog(@"bug!!");
-        return -99;
-    }
+    if(!_variablesValue)  _variablesValue = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
+    return _variablesValue;
 }
 
-- (void) pushOperand:(NSString*)operand{
-    [self.programStack addObject:operand];
-}
-
-- (void) pushVariableOperand:(NSString *)variableOperand{
-    [self.programStack addObject:variableOperand];
-}
-
-
-- (double)performOperation:(NSString *)operation
+//?? not sure if it's correct?
+- (void)setVariablesValue:(NSDictionary *)variablesValue withValues:(NSArray *)values
 {
-    [self.programStack addObject:operation];
-    if ([CalculatorBrain variablesUsedInProgram:self.program]==nil) {
-        return [CalculatorBrain runProgram:self.program ];
-    }
-    else{
-        return [CalculatorBrain runProgram:self.program usingVariableValues:nil];//not completed
-    }
+    NSArray* keys = @[@"x",@"a",@"b"];
+    _variablesValue = [NSDictionary dictionaryWithObject:values forKey:keys];
 }
 
 - (id) program
@@ -82,18 +47,39 @@
     return [self.programStack copy];
 }
 
+#pragma mark -
+#pragma mark Public Methods
 
-+ (double)runProgram:(id)program
- usingVariableValues:(NSDictionary *)variableValues
+- (void) pushOperand:(NSString*)operand{
+    [self.programStack addObject:operand];
+}
+
+
+- (double)performOperation:(NSString *)operation
+{
+    [self.programStack addObject:operation];
+    return [CalculatorBrain runProgram:self.program usingVariablesValue:self.variablesValue];
+}
+
+
+-  (void) clearStack{
+    [self.programStack removeAllObjects];
+}
+
++ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues
 {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]){
         stack = [program mutableCopy];
     }
+    else{
+        NSLog(@"don't know why");
+        return -99;
+    }
     //provide values
     //!! it may can be improved
-    NSUInteger stackLengh = [stack count];
-    for (NSUInteger i=0; i<stackLengh; i++) {
+    int stackLengh = [stack count];
+    for (int i=0; i<stackLengh; i++) {
         NSString *obj = [stack objectAtIndex:i];
         double doubleValue;
         if ([obj doubleValue]!=0) {
@@ -110,14 +96,13 @@
     return [self popOperandOffStack:stack];
 }
 
-+ (double)runProgram:(id)program
++ (NSString *)descriptionOfProgram:(id)program
 {
-    NSMutableArray *stack;
-    if ([program isKindOfClass:[NSArray class]]){
-        stack = [program mutableCopy];
-    }
-    return [self popOperandOffStack:stack];
+    return @"Implement this in Homework #2";
 }
+
+#pragma mark -
+#pragma mark Private Methods
 
 //?? can I use const?
 + (NSSet *)variablesUsedInProgram:(id) program
@@ -141,22 +126,16 @@
     }
 }
 
-- (NSDictionary *)testSet
-{
-    if (!_testSet) _testSet= [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
-    return _testSet;
-}
-
-- (void)setTestSet:(NSDictionary *)testSet withValues:(NSArray *)values
-{
-    NSArray* keys = @[@"x",@"a",@"b"];
-    NSDictionary* testSet2 = [[NSDictionary alloc] initWithObjects:values forKeys:keys];
-    self.testSet = testSet2;
-}
 
 + (double) popOperandOffStack:(NSMutableArray *) stack
 {
     double result = 0 ;
+    //debugger//
+    NSLog(@"stack content");
+    for (int i=0; i<[stack count]; i++) {
+        NSLog(@"%@",[stack objectAtIndex:i]);
+        NSLog(@"%@",[[stack objectAtIndex:i] class]);
+    } 
     
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
@@ -190,14 +169,35 @@
     return result;
 }
 
-+ (NSString *)descriptionOfProgram:(id)program
+//?? class method or instance method?
+- (int)differentiateOperation: (NSString*)operation
+//return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation, and -1 for operand, -2 for dot
 {
-    return @"Implement this in Homework #2";
+    if([operation doubleValue])  return -1;
+    else if([operation isEqualToString:@"0"]) return -1;
+    
+    else if([operation isEqualToString:@"."])   return -2;
+    
+    else if([operation isEqualToString:@"sqrt"] ||
+            [operation isEqualToString:@"sin"]  ||
+            [operation isEqualToString:@"cos"])  return 1;
+    
+    else if([operation isEqualToString:@"π"] ||
+            [operation isEqualToString:@"x"] ||
+            [operation isEqualToString:@"a"] ||
+            [operation isEqualToString:@"b"])  return 0;
+    
+    else if([operation isEqualToString:@"+"] ||
+            [operation isEqualToString:@"-"] ||
+            [operation isEqualToString:@"*"] ||
+            [operation isEqualToString:@"/"])  return 2;
+    else{
+        NSLog(@"bug!!");
+        return -99;
+    }
 }
 
--  (void) clearStack{
-    [self.programStack removeAllObjects];
-}
+
 
 
 

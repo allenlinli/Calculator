@@ -13,12 +13,10 @@
 @property (nonatomic, readonly) id program;
 
 -(void)pushOperand:(NSString*)operand;
-- (void)pushVariableOperand:(NSString *)variableOperand;
 -(double)performOperation:(NSString *)operation;
-- (void) clearStack;
+- (void)clearStack;
 
-+ (double)runProgram:(id)program;
-+ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues;
++ (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)variableValues;
 + (NSString *)descriptionOfProgram:(id)program;
 
 

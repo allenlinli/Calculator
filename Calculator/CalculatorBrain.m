@@ -66,7 +66,7 @@
     [self.programStack removeAllObjects];
 }
 
-+ (double)runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues
++ (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)variablesValue
 {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]){
@@ -81,17 +81,22 @@
     int stackLengh = [stack count];
     for (int i=0; i<stackLengh; i++) {
         NSString *obj = [stack objectAtIndex:i];
-        double doubleValue;
+        //if obj is NSNumber, do nothing
         if ([obj doubleValue]!=0) {
-            doubleValue = [obj doubleValue];
+            NSLog(@"NSNumber do nothing");
         }
         else if([obj isEqualToString:@"0"]){
-            doubleValue = 0;
+            NSLog(@"0 do nothing");
+        }
+        else if([obj isEqualToString:@"x"] ||
+                [obj isEqualToString:@"a"] ||
+                [obj isEqualToString:@"b"])  {
+            NSNumber *value = [variablesValue objectForKey:obj];
+            [stack replaceObjectAtIndex:i withObject:value];
         }
         else{
-            doubleValue = [[variableValues objectForKey:obj] doubleValue];
+            NSLog(@"operations do nothing");
         }
-        [stack replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:doubleValue]];
     }
     return [self popOperandOffStack:stack];
 }

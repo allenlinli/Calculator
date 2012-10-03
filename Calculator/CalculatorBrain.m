@@ -35,7 +35,7 @@
     return _variablesValue;
 }
 
-//?? not sure if it's correct?
+//??
 - (void)setVariablesValue:(NSDictionary *)variablesValue withValues:(NSArray *)values
 {
     NSArray* keys = @[@"x",@"a",@"b"];
@@ -50,22 +50,22 @@
 #pragma mark -
 #pragma mark Public Methods
 
-- (void) pushOperand:(NSString*)operand{
-    [self.programStack addObject:operand];
+- (void)pushOperand:(double)operand
+{
+    [self.programStack addObject:[NSNumber numberWithDouble:operand]];
 }
-
 
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    return [CalculatorBrain runProgram:self.program usingVariablesValue:self.variablesValue];
+    return [[self class] runProgram:self.program usingVariablesValue:self.variablesValue];
 }
-
 
 -  (void) clearStack{
     [self.programStack removeAllObjects];
 }
 
+//substitude variables with values and then runProgram
 + (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)variablesValue
 {
     NSMutableArray *stack;
@@ -76,8 +76,7 @@
         NSLog(@"don't know why");
         return -99;
     }
-    //provide values
-    //!! it may can be improved
+    //!! can be improved
     int stackLengh = [stack count];
     for (int i=0; i<stackLengh; i++) {
         NSString *obj = [stack objectAtIndex:i];
@@ -110,21 +109,20 @@
 #pragma mark Private Methods
 
 //?? can I use const?
-+ (NSSet *)variablesUsedInProgram:(id) program
++ (NSSet *)variablesUsedInProgram:(const id) program
 {
     NSSet * variables = nil;
-    NSMutableArray *stack;
-    NSUInteger stackLengh = [stack count];
-    if (stackLengh==0) {
+    NSUInteger programLengh = [program count];
+    if (programLengh==0) {
         return nil;
     }
     else{
-        for (NSUInteger i=0; i<stackLengh; i++) {
-            NSObject *obj = [stack objectAtIndex:i];
-            if (![obj isKindOfClass:[NSNumber class]]) {
-                [variables setByAddingObject:obj];
-                //for debug//
-                NSLog(@"%@",obj);
+        for (NSUInteger i=0; i<programLengh; i++) {
+            NSString *variable = [program objectAtIndex:i];
+            if ([variable isEqualToString:@"x"] ||
+                [variable isEqualToString:@"a"] ||
+                [variable isEqualToString:@"x"]) {
+                [variables setByAddingObject:variable];
             }
         }
         return variables;

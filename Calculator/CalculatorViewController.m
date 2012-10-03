@@ -76,7 +76,7 @@
 }
 
 - (IBAction)enterPressed {
-    [self.brain pushOperand:self.display.text];
+    [self.brain pushOperand:[self.display.text doubleValue]];
     self.displayLastPressed=0;
     //[self.brain pushOperand:[self.display.text doubleValue]];
     //self.userIsInTheMiddleOfEnteringANumber = NO;

@@ -16,6 +16,7 @@
 		62FD12B815D257EB0051E57A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62FD12B615D257EB0051E57A /* MainStoryboard.storyboard */; };
 		62FD12BB15D257EB0051E57A /* CalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FD12BA15D257EB0051E57A /* CalculatorViewController.m */; };
 		62FD12C315D26EFA0051E57A /* CalculatorBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FD12C215D26EFA0051E57A /* CalculatorBrain.m */; };
+		E914EE7E161BEE7B00CD5820 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E914EE7D161BEE7B00CD5820 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		62FD12BA15D257EB0051E57A /* CalculatorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CalculatorViewController.m; sourceTree = "<group>"; };
 		62FD12C115D26EFA0051E57A /* CalculatorBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorBrain.h; sourceTree = "<group>"; };
 		62FD12C215D26EFA0051E57A /* CalculatorBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorBrain.m; sourceTree = "<group>"; };
+		E914EE7D161BEE7B00CD5820 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 		62FD129515D257EB0051E57A = {
 			isa = PBXGroup;
 			children = (
+				E914EE7D161BEE7B00CD5820 /* Default-568h@2x.png */,
 				62FD12AA15D257EB0051E57A /* Calculator */,
 				62FD12A315D257EB0051E57A /* Frameworks */,
 				62FD12A115D257EB0051E57A /* Products */,
@@ -155,6 +158,7 @@
 			files = (
 				62FD12AF15D257EB0051E57A /* InfoPlist.strings in Resources */,
 				62FD12B815D257EB0051E57A /* MainStoryboard.storyboard in Resources */,
+				E914EE7E161BEE7B00CD5820 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +284,7 @@
 				62FD12C015D257EB0051E57A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

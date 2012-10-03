@@ -82,10 +82,10 @@
         NSString *obj = [stack objectAtIndex:i];
         //if obj is NSNumber, do nothing
         if ([obj doubleValue]!=0) {
-            NSLog(@"NSNumber do nothing");
+            //NSLog(@"NSNumber do nothing");
         }
         else if([obj isEqualToString:@"0"]){
-            NSLog(@"0 do nothing");
+            //NSLog(@"0 do nothing");
         }
         else if([obj isEqualToString:@"x"] ||
                 [obj isEqualToString:@"a"] ||
@@ -94,7 +94,7 @@
             [stack replaceObjectAtIndex:i withObject:value];
         }
         else{
-            NSLog(@"operations do nothing");
+            //NSLog(@"operations do nothing");
         }
     }
     return [self popOperandOffStack:stack];
@@ -133,12 +133,12 @@
 + (double) popOperandOffStack:(NSMutableArray *) stack
 {
     double result = 0 ;
-    //debugger//
-    NSLog(@"stack content");
-    for (int i=0; i<[stack count]; i++) {
-        NSLog(@"%@",[stack objectAtIndex:i]);
-        NSLog(@"%@",[[stack objectAtIndex:i] class]);
-    } 
+//debugger//
+//    NSLog(@"stack content");
+//    for (int i=0; i<[stack count]; i++) {
+//        NSLog(@"%@",[stack objectAtIndex:i]);
+//        NSLog(@"%@",[[stack objectAtIndex:i] class]);
+//    }
     
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];

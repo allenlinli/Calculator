@@ -56,33 +56,24 @@
 }
 
 - (IBAction)floatPointPressed:(id)sender {
-    //if (_IsAfterFloatPoint){
-    if (self.displayLastPressed==20 ||self.displayLastPressed==21) {
+    if (self.displayLastPressed==20 ||self.displayLastPressed==21) {     //if (_IsAfterFloatPoint){
         //do nothing
-        NSLog(@"Can't type float point twice!");
+        NSLog(@"Can't type dot twice!");
     }
-    //else if(self.userIsInTheMiddleOfEnteringANumber){
-    else if(self.displayLastPressed==1){
+    else if(self.displayLastPressed==1){      //else if(self.userIsInTheMiddleOfEnteringANumber){
         self.displayLastPressed=20;
-        //_IsAfterFloatPoint = YES;
         self.display.text = [self.display.text stringByAppendingString:@"."];
     }
     else if(self.displayLastPressed==0){
         self.displayLastPressed=20; 
         self.display.text = @"0.";
-        //_IsAfterFloatPoint = YES;
-        //self.userIsInTheMiddleOfEnteringANumber = YES;
     }
 }
 
 - (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.displayLastPressed=0;
-    //[self.brain pushOperand:[self.display.text doubleValue]];
-    //self.userIsInTheMiddleOfEnteringANumber = NO;
-    //self.IsAfterFloatPoint = NO;
 }
-
 
 
 - (IBAction)operationPressed:(id)sender {
@@ -96,15 +87,6 @@
         double result = [self.brain performOperation:operation];
         self.display.text = [NSString stringWithFormat:@"%g", result];
     }
-    
-    /*  //old code//
-    else if (self.displayLastPressed==0){
-        //if it's 0 or 1 operand operation, it can work
-        //?? BUG?
-        double result = [self.brain performOperation:operation];
-        self.display.text = [NSString stringWithFormat:@"%g", result];
-    }*/
-    // inTheMiddleOfEnteringNumber, ie, self.displayLastPressed==1 or 21
 }
 
 - (IBAction)clearEverything {

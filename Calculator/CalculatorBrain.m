@@ -20,6 +20,8 @@
 
 @implementation CalculatorBrain
 
+//const NSArray* keys = @[@"x",@"a",@"b"];
+#define KEYS @[@"x",@"a",@"b"]
 
 - (NSMutableArray *)programStack
 {
@@ -31,14 +33,14 @@
 
 - (NSDictionary *)variablesValue
 {
-    if(!_variablesValue)  _variablesValue = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
+    if(!_variablesValue)  _variablesValue = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:KEYS];
     return _variablesValue;
 }
 
 //??
 - (void)setVariablesValue:(NSDictionary *)variablesValue withValues:(NSArray *)values
 {
-    NSArray* keys = @[@"x",@"a",@"b"];
+    NSArray* keys = KEYS;
     _variablesValue = [NSDictionary dictionaryWithObject:values forKey:keys];
 }
 

@@ -17,6 +17,7 @@
 		62FD12BB15D257EB0051E57A /* CalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FD12BA15D257EB0051E57A /* CalculatorViewController.m */; };
 		62FD12C315D26EFA0051E57A /* CalculatorBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FD12C215D26EFA0051E57A /* CalculatorBrain.m */; };
 		E914EF2C161C324100CD5820 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E914EF2B161C324100CD5820 /* Default-568h@2x.png */; };
+		E986413A1626CA6C00E783B5 /* Worklog in Resources */ = {isa = PBXBuildFile; fileRef = E98641391626CA6C00E783B5 /* Worklog */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		62FD12C115D26EFA0051E57A /* CalculatorBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorBrain.h; sourceTree = "<group>"; };
 		62FD12C215D26EFA0051E57A /* CalculatorBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorBrain.m; sourceTree = "<group>"; };
 		E914EF2B161C324100CD5820 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E98641391626CA6C00E783B5 /* Worklog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Worklog; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 		62FD12AA15D257EB0051E57A /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				E98641391626CA6C00E783B5 /* Worklog */,
 				62FD12B315D257EB0051E57A /* CalculatorAppDelegate.h */,
 				62FD12B415D257EB0051E57A /* CalculatorAppDelegate.m */,
 				62FD12B615D257EB0051E57A /* MainStoryboard.storyboard */,
@@ -159,6 +162,7 @@
 				62FD12AF15D257EB0051E57A /* InfoPlist.strings in Resources */,
 				62FD12B815D257EB0051E57A /* MainStoryboard.storyboard in Resources */,
 				E914EF2C161C324100CD5820 /* Default-568h@2x.png in Resources */,
+				E986413A1626CA6C00E783B5 /* Worklog in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

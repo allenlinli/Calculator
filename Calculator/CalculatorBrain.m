@@ -41,7 +41,7 @@
 - (void)setVariablesValue:(NSDictionary *)variablesValue withValues:(NSArray *)values
 {
     NSArray* keys = KEYS;
-    _variablesValue = [NSDictionary dictionaryWithObject:values forKey:keys];
+    _variablesValue = @{keys: values};
 }
 
 - (id) program
@@ -55,10 +55,10 @@
 - (void)pushOperand:(NSString*)operand
 {
     if ([operand doubleValue]!=0.0) {
-        [self.programStack addObject:[NSNumber numberWithDouble:[operand doubleValue]]];
+        [self.programStack addObject:@([operand doubleValue])];
     }
     else if([operand isEqualToString:@"0"]){
-        [self.programStack addObject:[NSNumber numberWithDouble:[operand doubleValue]]];
+        [self.programStack addObject:@([operand doubleValue])];
     }
     else{
         [self.programStack addObject:operand];
@@ -83,13 +83,13 @@
         stack = [program mutableCopy];
     }
     else{
-        NSLog(@"don't know why");
+        NSLog(@"bug, don't know why");
         return -99;
     }
     //!! can be improved
     int stackLengh = [stack count];
     for (int i=0; i<stackLengh; i++) {
-        NSString *obj = [stack objectAtIndex:i];
+        NSString *obj = stack[i];
         //if obj is NSNumber, do nothing
         if ([obj doubleValue]!=0) {
             //NSLog(@"NSNumber do nothing");
@@ -100,11 +100,11 @@
         else if([obj isEqualToString:@"x"] ||
                 [obj isEqualToString:@"a"] ||
                 [obj isEqualToString:@"b"])  {
-            NSNumber *value = [variablesValue objectForKey:obj];
-            [stack replaceObjectAtIndex:i withObject:value];
+            NSNumber *value = variablesValue[obj];
+            stack[i] = value;
         }
         else{
-            //NSLog(@"operations do nothing");
+            //NSLog(@"for operations, do nothing");
         }
     }
     return [self popOperandOffStack:stack];
@@ -128,7 +128,7 @@
     }
     else{
         for (NSUInteger i=0; i<programLengh; i++) {
-            NSString *variable = [program objectAtIndex:i];
+            NSString *variable = program[i];
             if ([variable isEqualToString:@"x"] ||
                 [variable isEqualToString:@"a"] ||
                 [variable isEqualToString:@"x"]) {

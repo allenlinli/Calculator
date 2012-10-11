@@ -145,7 +145,33 @@
 
 -(NSNumber *)numberOfOperandsINAOperation :(NSString*) operation
 {
-    NSSet *oneOperandOperaion = [NSSet setWithArray:@[@"sqrt",@"π"]];
+    NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
+    NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
+    NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π"]];
+    
+    if ([oneOperandsOperaion containsObject:operation]) return @1;
+    if ([twoOperandsOperaion containsObject:operation]) return @2;
+    if ([zeroOperandsOperaion containsObject:operation]) return @0;
+    return @-99;
+}
+
++ (BOOL)isOperation:(NSString *)operation
+{
+    NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
+    NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
+    NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π"]];
+    //?? consider Enter
+    NSSet *enter = [NSSet setWithObject:@"Enter"];
+    if([oneOperandsOperaion containsObject:operation] ||
+       [twoOperandsOperaion containsObject:operation] ||
+       [zeroOperandsOperaion containsObject:operation] ||
+       [enter containsObject:operation])
+    {
+        return YES;
+    }
+    else{
+        return NO;
+    }
 }
 
 /*

@@ -15,6 +15,7 @@
 -(void)pushOperand:(NSString*)operand;
 -(double)performOperation:(NSString *)operation;
 - (void)clearStack;
+- (void)setTestValues:(int)testSetNum;
 
 + (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)variableValues;
 + (NSString *)descriptionOfProgram:(id)program;

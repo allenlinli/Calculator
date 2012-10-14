@@ -12,13 +12,12 @@
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
 @property (nonatomic, strong) NSDictionary *variablesValue;
+@property (nonatomic, strong) NSArray *testValuesArray;
+@property (nonatomic, strong) NSArray *dictionaries;
 typedef enum OperandType {
     ZERO,
     ONE,
-    TWO,
-    ENTER,
-    NUMBER,
-    DOT
+    TWO
 }OperandType;
 @end
 
@@ -30,6 +29,37 @@ typedef enum OperandType {
 
 //const NSArray* keys = @[@"x",@"a",@"b"];
 #define KEYS @[@"x",@"a",@"b"]
+
+- (NSArray *)testValuesArray
+{
+    if(!_testValuesArray){
+        NSArray *keys = @[@"x",@"a",@"b"];
+        NSArray *testSet1 = @[@5,@4.8,@0];
+        NSArray *testSet2 = @[@3.3,@3.3,@3.3];
+        NSArray *testSet3 = @[@1,@1,@1];
+        _testValuesArray = @[keys, testSet1, testSet2, testSet3];
+    }
+    return _testValuesArray;
+}
+
+- (void)setVariablesValue:(int)testSetNum
+{
+    NSDictionary *dic;
+    switch (testSetNum) {
+        case 1:
+            NSObject *a= self.t
+            dic = [[NSDictionary alloc] initWithObjects: forKeys:KEYS];
+            break;
+        case 2:
+            dic = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
+            break;
+        case 3:
+            dic = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];            break;
+        default:
+            break;
+    }
+    self.variablesValue = dic;
+}
 
 - (NSMutableArray *)programStack
 {
@@ -171,12 +201,9 @@ typedef enum OperandType {
     NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
     NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
     NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π"]];
-    //?? consider Enter
-    NSSet *enter = [NSSet setWithObject:@"Enter"];
     if([oneOperandsOperaion containsObject:operation] ||
        [twoOperandsOperaion containsObject:operation] ||
-       [zeroOperandsOperaion containsObject:operation] ||
-       [enter containsObject:operation])
+       [zeroOperandsOperaion containsObject:operation])
     {
         return YES;
     }
@@ -233,25 +260,13 @@ typedef enum OperandType {
                 }
                 break;
             
-            case ENTER:
-                break;
-            
-            case DOT:
-                NSLog(@"exception");
-                abort();
-                break;
-            
-            case NUMBER:
-                NSLog(@"bug");
-                abort();
-                break;
-            
             default:
                 NSLog(@"bug");
                 abort();
                 break;
         }
     }
+    abort();
 }
 
 
@@ -308,11 +323,9 @@ typedef enum OperandType {
     //if([operation doubleValue])  return -1;
     //else if([operation isEqualToString:@"0"]) return -1;
     
-    if([operation isEqualToString:@"."])   return -2;
-    else if([oneOperandsOperaion containsObject:operation]) return 1;
-    else if ([twoOperandsOperaion containsObject:operation]) return 2;
-    else if([zeroOperandsOperaion containsObject:operation]) return 0;
-    else if([operation isEqualToString:@"Enter"]) return 3;
+    if([oneOperandsOperaion containsObject:operation]) return ONE;
+    else if ([twoOperandsOperaion containsObject:operation]) return TWO;
+    else if([zeroOperandsOperaion containsObject:operation]) return ZERO;
     else    {NSLog(@"bug!!"); return -99;}
 }
 

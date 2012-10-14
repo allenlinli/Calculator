@@ -11,6 +11,7 @@
 
 @interface CalculatorViewController()
 @property (nonatomic, strong) CalculatorBrain *brain;
+@property (weak, nonatomic) IBOutlet UILabel *testValues;
 @property NSInteger display2LastPressed; //0 be initial, 1 be digit, 20 be dot, 21 be digit after dot 
 @property NSInteger displayLastPressed;  //0 be initial, 1 be digit, 20 be dot, 21 be digit after dot 
 @end
@@ -18,7 +19,6 @@
 @implementation CalculatorViewController
 
 
- 
 - (CalculatorBrain *)brain
 {
     if(!_brain) _brain = [[CalculatorBrain alloc] init];
@@ -75,7 +75,6 @@
     self.displayLastPressed=0;
 }
 
-
 - (IBAction)operationPressed:(id)sender {
     NSString *operation = [sender currentTitle];
     if (self.displayLastPressed==20) {
@@ -96,7 +95,6 @@
     self.display2LastPressed=0;
     self.displayLastPressed=0;
 }
-
 
 - (IBAction)displayAllOperations:(id)sender {
     NSString *digit;
@@ -158,6 +156,21 @@
     }
 }
 
+- (IBAction)test1Values:(id)sender {
+    [self.brain setTestValues:1];
+}
+
+- (IBAction)test2Values:(id)sender {
+    [self.brain setTestValues:2];
+}
+
+- (IBAction)test3Values:(id)sender {
+    [self.brain setTestValues:3];
+}
 
 
+- (void)viewDidUnload {
+    [self setTestValues:nil];
+    [super viewDidUnload];
+}
 @end

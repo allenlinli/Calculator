@@ -12,6 +12,14 @@
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
 @property (nonatomic, strong) NSDictionary *variablesValue;
+typedef enum OperandType {
+    ZERO,
+    ONE,
+    TWO,
+    ENTER,
+    NUMBER,
+    DOT
+}OperandType;
 @end
 
 
@@ -143,8 +151,10 @@
     }
 }
 
+/*
 -(NSNumber *)numberOfOperandsINAOperation :(NSString*) operation
 {
+    
     NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
     NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
     NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π"]];
@@ -153,7 +163,8 @@
     if ([twoOperandsOperaion containsObject:operation]) return @2;
     if ([zeroOperandsOperaion containsObject:operation]) return @0;
     return @-99;
-}
+}*/
+
 
 + (BOOL)isOperation:(NSString *)operation
 {
@@ -174,8 +185,7 @@
     }
 }
 
-
-+ (NSString*) descriptionOfTopOfStack:(NSMutableArray *) stack
++ (NSString*)descriptionOfTopOfStack:(NSMutableArray *)stack
 {
     NSString* description = @"";
     
@@ -183,11 +193,16 @@
     if (topOfStack) [stack removeLastObject];
     
     if ([topOfStack isKindOfClass:[NSNumber class]]) {
-        [description stringByAppendingFormat:[NSString stringWithFormat:@"%@",(NNS)topOfStack]];
+        [description stringByAppendingFormat:[NSString stringWithFormat:@"%@",topOfStack]];
     }
     else{
         NSString *operation = topOfStack;
-        
+        switch ([self ]) {
+                case ZERO:
+                break;
+                case ONE:
+                break;
+            case ENTER:
     }
     
     return description;
@@ -237,17 +252,17 @@
 }
 
 //?? class method or instance method?
-- (int)differentiateOperation: (NSString*)operation
++ (int)differentiateOperation: (NSString*)operation
 //return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation, and -1 for operand, -2 for dot
 {
     NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
     NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
     NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π",@"x",@"a",@"b"]];
     
-    if([operation doubleValue])  return -1;
+    //if([operation doubleValue])  return -1;
     //else if([operation isEqualToString:@"0"]) return -1;
     
-    else if([operation isEqualToString:@"."])   return -2;
+    if([operation isEqualToString:@"."])   return -2;
     else if([oneOperandsOperaion containsObject:operation]) return 1;
     else if ([twoOperandsOperaion containsObject:operation]) return 2;
     else if([zeroOperandsOperaion containsObject:operation]) return 0;

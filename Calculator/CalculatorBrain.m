@@ -187,25 +187,71 @@ typedef enum OperandType {
 
 + (NSString*)descriptionOfTopOfStack:(NSMutableArray *)stack
 {
-    NSString* description = @"";
-    
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
     
     if ([topOfStack isKindOfClass:[NSNumber class]]) {
-        [description stringByAppendingFormat:[NSString stringWithFormat:@"%@",topOfStack]];
+        //[description stringByAppendingFormat:[NSString stringWithFormat:@"%@",topOfStack]];
+        return [NSString stringWithFormat:@"%@",topOfStack];
     }
     else{
         NSString *operation = topOfStack;
-        switch ([self ]) {
-                case ZERO:
+        switch ([[self class] differentiateOperation:operation]) {
+            case ZERO:
+                if([topOfStack isEqualToString:@"π"]){
+                    
+                }
+                return nil;
                 break;
-                case ONE:
+                
+            case ONE:
+                if ([topOfStack isEqualToString:@"sqrt"]) {
+                    return[NSString stringWithFormat:@"sqrt(%@)",[self descriptionOfTopOfStack:stack]];
+                }
+                else if ([topOfStack isEqualToString:@"cos"]) {
+                    return[NSString stringWithFormat:@"sqrt(%@)",[self descriptionOfTopOfStack:stack]];
+                }
+                else if ([topOfStack isEqualToString:@"sin"]) {
+                    return[NSString stringWithFormat:@"sin(%@)",[self descriptionOfTopOfStack:stack]];
+                }
                 break;
+
+            case TWO:
+                if ([topOfStack isEqualToString:@"+"]) {
+                    return [NSString stringWithFormat:@"%@ + %@",[self descriptionOfTopOfStack:stack],[self descriptionOfTopOfStack:stack]];
+                }
+                else if ([topOfStack isEqualToString:@"-"]){
+                    NSString *subtrashend = [self descriptionOfTopOfStack:stack];
+                    return [NSString stringWithFormat:@"%@ - %@",[self descriptionOfTopOfStack:stack  ],subtrashend];
+                }
+                else if ([topOfStack isEqualToString:@"*"]) {
+                    return [NSString stringWithFormat:@"%@ * %@",[self descriptionOfTopOfStack:stack],[self descriptionOfTopOfStack:stack]];
+                }
+                else if ([topOfStack isEqualToString:@"/"]) {
+                    NSString *divisor = [self descriptionOfTopOfStack:stack];
+                    return [NSString stringWithFormat:@"%@ / %@",[self descriptionOfTopOfStack:stack],divisor];
+                }
+                break;
+            
             case ENTER:
+                break;
+            
+            case DOT:
+                NSLog(@"exception");
+                abort();
+                break;
+            
+            case NUMBER:
+                NSLog(@"bug");
+                abort();
+                break;
+            
+            default:
+                NSLog(@"bug");
+                abort();
+                break;
+        }
     }
-    
-    return description;
 }
 
 

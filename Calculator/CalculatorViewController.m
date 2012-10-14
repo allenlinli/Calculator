@@ -157,15 +157,22 @@
 }
 
 - (IBAction)test1Values:(id)sender {
-    [self.brain setTestValues:1];
+    NSDictionary *dic = [self.brain variablesValue:1];
+    NSArray *array = [dic allValues];
+    self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
 }
 
+
 - (IBAction)test2Values:(id)sender {
-    [self.brain setTestValues:2];
+    NSDictionary *dic = [self.brain variablesValue:2];
+    NSArray *array = [dic allValues];
+    self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
 }
 
 - (IBAction)test3Values:(id)sender {
-    [self.brain setTestValues:3];
+    NSDictionary *dic = [self.brain variablesValue:3];
+    NSArray *array = [dic allValues];
+    self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
 }
 
 

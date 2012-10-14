@@ -12,8 +12,6 @@
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
 @property (nonatomic, strong) NSDictionary *variablesValue;
-@property (nonatomic, strong) NSArray *testValuesArray;
-@property (nonatomic, strong) NSArray *dictionaries;
 typedef enum OperandType {
     ZERO,
     ONE,
@@ -27,28 +25,14 @@ typedef enum OperandType {
 
 @implementation CalculatorBrain
 
-//const NSArray* keys = @[@"x",@"a",@"b"];
-#define KEYS @[@"x",@"a",@"b"]
 
-- (NSArray *)testValuesArray
-{
-    if(!_testValuesArray){
-        NSArray *keys = @[@"x",@"a",@"b"];
-        NSArray *testSet1 = @[@5,@4.8,@0];
-        NSArray *testSet2 = @[@3.3,@3.3,@3.3];
-        NSArray *testSet3 = @[@1,@1,@1];
-        _testValuesArray = @[keys, testSet1, testSet2, testSet3];
-    }
-    return _testValuesArray;
-}
-
-- (void)setVariablesValue:(int)testSetNum
+- (NSDictionary *)variablesValue:(int)testSetNum
 {
     NSDictionary *dic;
+    NSArray *KEYS = @[@"x",@"a",@"b"];
     switch (testSetNum) {
         case 1:
-            NSObject *a= self.t
-            dic = [[NSDictionary alloc] initWithObjects: forKeys:KEYS];
+            dic = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
             break;
         case 2:
             dic = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
@@ -58,7 +42,8 @@ typedef enum OperandType {
         default:
             break;
     }
-    self.variablesValue = dic;
+    _variablesValue = dic;
+    return _variablesValue;
 }
 
 - (NSMutableArray *)programStack
@@ -69,26 +54,12 @@ typedef enum OperandType {
     return _programStack;
 }
 
-- (NSDictionary *)variablesValue
-{
-    if(!_variablesValue)  _variablesValue = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:KEYS];
-    return _variablesValue;
-}
-
-//??
-- (void)setVariablesValue:(NSDictionary *)variablesValue withValues:(NSArray *)values
-{
-    NSArray* keys = KEYS;
-    _variablesValue = @{keys: values};
-}
-
 - (id) program
 {
     return [self.programStack copy];
 }
 
-#pragma mark -
-#pragma mark Public Methods
+#pragma mark - Public Methods
 
 - (void)pushOperand:(NSString*)operand
 {
@@ -154,8 +125,7 @@ typedef enum OperandType {
     return @"Implement this in Homework #2";
 }
 
-#pragma mark -
-#pragma mark Private Methods
+#pragma mark - Private Methods
 
 //?? can I use const?
 + (NSSet *)variablesUsedInProgram:(const id) program
@@ -171,10 +141,6 @@ typedef enum OperandType {
             NSString *variable = program[i];
             if ([xab containsObject:variable]){
                [variables setByAddingObject:variable];
-               /*([variable isEqualToString:@"x"] ||
-                [variable isEqualToString:@"a"] ||
-                [variable isEqualToString:@"b"]) {
-                [variables setByAddingObject:variable];*/
             }
         }
         return variables;
@@ -308,20 +274,15 @@ typedef enum OperandType {
             result = [self popOperandOffStack:stack];  //?? not complete
         }
     }
-   
     return result;
 }
 
 //?? class method or instance method?
 + (int)differentiateOperation: (NSString*)operation
-//return value: 0 for no-operand operation, 1 for single-operand operation, 2 for two-operand operation, and -1 for operand, -2 for dot
 {
     NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
     NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
     NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π",@"x",@"a",@"b"]];
-    
-    //if([operation doubleValue])  return -1;
-    //else if([operation isEqualToString:@"0"]) return -1;
     
     if([oneOperandsOperaion containsObject:operation]) return ONE;
     else if ([twoOperandsOperaion containsObject:operation]) return TWO;

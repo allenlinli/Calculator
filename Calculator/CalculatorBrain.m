@@ -11,7 +11,7 @@
 
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
-@property (nonatomic, strong) NSDictionary *variablesValue;
+@property (nonatomic, strong) NSDictionary* testVariableValues;
 typedef enum OperandType {
     ZERO,
     ONE,
@@ -27,10 +27,10 @@ typedef enum OperandType {
 
 -(NSDictionary *)variablesValue
 {
-    if(!_variablesValue){
-        _variablesValue = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
+    if(!_testVariableValues){
+        _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
     }
-    return _variablesValue;
+    return _testVariableValues;
 }
 
 - (void)chooseVariablesValue:(int)testSetNum
@@ -38,13 +38,13 @@ typedef enum OperandType {
     NSArray *KEYS = @[@"x",@"a",@"b"];
     switch (testSetNum) {
         case 1:
-            _variablesValue = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
+            _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
             break;
         case 2:
-            _variablesValue = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
+            _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
             break;
         case 3:
-            _variablesValue = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];break;
+            _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];break;
         default:
             break;
     }
@@ -84,7 +84,7 @@ typedef enum OperandType {
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    return [[self class] runProgram:self.program usingVariablesValue:self.variablesValue];
+    return [[self class] runProgram:self.program usingVariablesValue:self.testVariableValues];
 }
 
 -  (void) clearStack{
@@ -92,7 +92,7 @@ typedef enum OperandType {
 }
 
 //substitude variables with values and then runProgram
-+ (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)variablesValue
++ (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)testVariableValues
 {
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]){
@@ -114,8 +114,8 @@ typedef enum OperandType {
         else if([obj isEqualToString:@"x"] ||
                 [obj isEqualToString:@"a"] ||
                 [obj isEqualToString:@"b"])  {
-            NSNumber *value = variablesValue[obj];
-            stack[i] = value;
+            NSNumber *value = testVariableValues[obj];
+            [stack replaceObjectAtIndex:i withObject:value];
         }
         else{
             //NSLog(@"for operations, do nothing");
@@ -126,8 +126,7 @@ typedef enum OperandType {
 
 + (NSString *)descriptionOfProgram:(id)program
 {
-
-    return @"Implement this in Homework #2";
+    return [[self class] descriptionOfTopOfStack:program];
 }
 
 #pragma mark - Private Methods

@@ -50,8 +50,10 @@
 
 
 - (IBAction)variablesPressed:(UIButton *)sender {
+    [self enterPressed];
     NSString *variable = [sender currentTitle];
     self.display.text = variable;
+    [self.brain pushOperand:self.display.text];
     //not completed
 }
 
@@ -158,20 +160,20 @@
 
 - (IBAction)test1Values:(id)sender {
     [self.brain chooseVariablesValue:1];
-    NSArray *array = [self.brain.variablesValue allValues];
+    NSArray *array = [self.brain.testVariableValues allValues];
     self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
 }
 
 
 - (IBAction)test2Values:(id)sender {
     [self.brain chooseVariablesValue:2];
-    NSArray *array = [self.brain.variablesValue allValues];
+    NSArray *array = [self.brain.testVariableValues allValues];
     self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
 }
 
 - (IBAction)test3Values:(id)sender {
     [self.brain chooseVariablesValue:3];
-    NSArray *array = [self.brain.variablesValue allValues];
+    NSArray *array = [self.brain.testVariableValues allValues];
     self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
 }
 

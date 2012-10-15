@@ -25,25 +25,29 @@ typedef enum OperandType {
 
 @implementation CalculatorBrain
 
-
-- (NSDictionary *)variablesValue:(int)testSetNum
+-(NSDictionary *)variablesValue
 {
-    NSDictionary *dic;
+    if(!_variablesValue){
+        _variablesValue = [[NSDictionary alloc] initWithObjects:@[@0,@0,@0] forKeys:@[@"x",@"a",@"b"]];
+    }
+    return _variablesValue;
+}
+
+- (void)chooseVariablesValue:(int)testSetNum
+{
     NSArray *KEYS = @[@"x",@"a",@"b"];
     switch (testSetNum) {
         case 1:
-            dic = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
+            _variablesValue = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
             break;
         case 2:
-            dic = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
+            _variablesValue = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
             break;
         case 3:
-            dic = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];            break;
+            _variablesValue = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];break;
         default:
             break;
     }
-    _variablesValue = dic;
-    return _variablesValue;
 }
 
 - (NSMutableArray *)programStack
@@ -70,6 +74,7 @@ typedef enum OperandType {
     //!! can be imperoved
     if ([operand doubleValue]!=0.0) {
         [self.programStack addObject:@([operand doubleValue])];
+        //add in NSNumber type
     }
     else if([operand isEqualToString:@"0"]){
         [self.programStack addObject:@([operand doubleValue])];

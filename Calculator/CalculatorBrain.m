@@ -63,9 +63,11 @@ typedef enum OperandType {
 
 - (void)pushOperand:(NSString*)operand
 {
-    if ([[self class] isOperation:operand]) {
+    if ([[self class] isVariable:operand]) {
         [self.programStack addObject:operand];
     }
+    /*----  check operand is doubleValue ----*/
+    //!! can be imperoved
     if ([operand doubleValue]!=0.0) {
         [self.programStack addObject:@([operand doubleValue])];
     }
@@ -92,19 +94,17 @@ typedef enum OperandType {
         stack = [program mutableCopy];
     }
     else{
-        NSLog(@"bug, don't know why");
-        return -99;
+        abort();
     }
+    
+    /*------   variable substitude -------*/
     //!! can be improved
     int stackLengh = [stack count];
     for (int i=0; i<stackLengh; i++) {
         NSString *obj = stack[i];
-        //if obj is NSNumber, do nothing
-        if ([obj doubleValue]!=0) {
-            //NSLog(@"NSNumber do nothing");
+        if ([obj doubleValue]!=0) {//NSLog(@"NSNumber do nothing");
         }
-        else if([obj isEqualToString:@"0"]){
-            //NSLog(@"0 do nothing");
+        else if([obj isEqualToString:@"0"]){//NSLog(@"0 do nothing");
         }
         else if([obj isEqualToString:@"x"] ||
                 [obj isEqualToString:@"a"] ||
@@ -147,29 +147,11 @@ typedef enum OperandType {
     }
 }
 
-/*
--(NSNumber *)numberOfOperandsINAOperation :(NSString*) operation
++ (BOOL)isVariable:(NSString *)operation
 {
-    
-    NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
-    NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
-    NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π"]];
-    
-    if ([oneOperandsOperaion containsObject:operation]) return @1;
-    if ([twoOperandsOperaion containsObject:operation]) return @2;
-    if ([zeroOperandsOperaion containsObject:operation]) return @0;
-    return @-99;
-}*/
-
-
-+ (BOOL)isOperation:(NSString *)operation
-{
-    NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];
-    NSSet *twoOperandsOperaion = [NSSet setWithArray:@[@"+",@"-",@"*",@"/"]];
-    NSSet *zeroOperandsOperaion = [NSSet setWithArray:@[@"π"]];
-    if([oneOperandsOperaion containsObject:operation] ||
-       [twoOperandsOperaion containsObject:operation] ||
-       [zeroOperandsOperaion containsObject:operation])
+    NSSet *varialbe = [NSSet setWithArray:@[@"x",@"a",@"b"]];
+    if([operation isEqualToString:@"π"] ||
+       [varialbe containsObject:operation])
     {
         return YES;
     }
@@ -198,31 +180,14 @@ typedef enum OperandType {
                 break;
                 
             case ONE:
-                if ([topOfStack isEqualToString:@"sqrt"]) {
-                    return[NSString stringWithFormat:@"sqrt(%@)",[self descriptionOfTopOfStack:stack]];
-                }
-                else if ([topOfStack isEqualToString:@"cos"]) {
-                    return[NSString stringWithFormat:@"sqrt(%@)",[self descriptionOfTopOfStack:stack]];
-                }
-                else if ([topOfStack isEqualToString:@"sin"]) {
-                    return[NSString stringWithFormat:@"sin(%@)",[self descriptionOfTopOfStack:stack]];
-                }
+                return [NSString stringWithFormat:@"%@(%@)",operation,[self descriptionOfTopOfStack:stack]];
                 break;
 
             case TWO:
-                if ([topOfStack isEqualToString:@"+"]) {
-                    return [NSString stringWithFormat:@"%@ + %@",[self descriptionOfTopOfStack:stack],[self descriptionOfTopOfStack:stack]];
-                }
-                else if ([topOfStack isEqualToString:@"-"]){
-                    NSString *subtrashend = [self descriptionOfTopOfStack:stack];
-                    return [NSString stringWithFormat:@"%@ - %@",[self descriptionOfTopOfStack:stack  ],subtrashend];
-                }
-                else if ([topOfStack isEqualToString:@"*"]) {
-                    return [NSString stringWithFormat:@"%@ * %@",[self descriptionOfTopOfStack:stack],[self descriptionOfTopOfStack:stack]];
-                }
-                else if ([topOfStack isEqualToString:@"/"]) {
-                    NSString *divisor = [self descriptionOfTopOfStack:stack];
-                    return [NSString stringWithFormat:@"%@ / %@",[self descriptionOfTopOfStack:stack],divisor];
+                {
+                    NSString *latterOne = [self descriptionOfTopOfStack:stack];
+                    NSString *formmerOne = [self descriptionOfTopOfStack:stack];
+                    return [NSString stringWithFormat:@"%@ %@ %@", formmerOne, operation, latterOne];
                 }
                 break;
             
@@ -232,7 +197,6 @@ typedef enum OperandType {
                 break;
         }
     }
-    abort();
 }
 
 

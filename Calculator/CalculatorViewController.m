@@ -118,23 +118,16 @@ typedef enum DisplayState {
     return shownVariables;
 }
 
-- (IBAction)test1Values:(id)sender {
-    [self.brain chooseVariablesValue:1];
+- (IBAction)testValuesPressed:(id)sender {
+    NSString *buttonLabel = [sender currentTitle];
+    int index = [buttonLabel length]-1;
+    NSString *theNum = [buttonLabel substringFromIndex:index];
+    int setNumber = [theNum intValue];
+    [self.brain chooseVariablesValue:setNumber];
     self.testValues.text = [self showTestValues];
 }
 
-- (IBAction)test2Values:(id)sender {
-    [self.brain chooseVariablesValue:2];
-    self.testValues.text = [self showTestValues];
-}
-
-- (IBAction)test3Values:(id)sender {
-    [self.brain chooseVariablesValue:3];
-    self.testValues.text = [self showTestValues];
-}
-
-- (IBAction)setTestValuesNil:(id)sender {
-    [self.brain setTestVariableValues:nil];
+- (IBAction)setTestValuesNilPressed:(id)sender {
 }
 
 - (void)viewDidUnload {

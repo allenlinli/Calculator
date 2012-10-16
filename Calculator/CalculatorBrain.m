@@ -40,13 +40,13 @@ typedef enum OperandType {
     NSArray *KEYS = @[@"x",@"a",@"b"];
     switch (testSetNum) {
         case 1:
-            _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
+            self.testVariableValues = [[NSDictionary alloc] initWithObjects:@[@5,@4.8,@0] forKeys:KEYS];
             break;
         case 2:
-            _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
+            self.testVariableValues = [[NSDictionary alloc] initWithObjects:@[@3.3,@3.3,@3.3] forKeys:KEYS];
             break;
         case 3:
-            _testVariableValues = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];break;
+            self.testVariableValues = [[NSDictionary alloc] initWithObjects:@[@1,@1,@1] forKeys:KEYS];break;
         default:
             break;
     }
@@ -73,12 +73,11 @@ typedef enum OperandType {
     //!! can be imperoved
     if ([operand doubleValue]!=0.0) {
         [self.programStack addObject:@([operand doubleValue])];
-        //add in NSNumber type
     }
     else if([operand isEqualToString:@"0"]){
         [self.programStack addObject:@([operand doubleValue])];
     }
-    else{ //if it's variable
+    else{ //if it's variable or string
         [self.programStack addObject:operand];
     }
 }
@@ -93,7 +92,7 @@ typedef enum OperandType {
     [self.programStack removeAllObjects];
 }
 
-//substitude variables with values and then runProgram
+/*------   variable substitude (without replacing origin program) -------*/
 + (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)testVariableValues
 {
     NSMutableArray *stack;
@@ -101,8 +100,7 @@ typedef enum OperandType {
         stack = [program mutableCopy];
     }
     else abort();
-    
-    /*------   variable substitude (without replacing origin program) -------*/
+
     //!! can be improved
     int stackLengh = [stack count];
     for (int i=0; i<stackLengh; i++) {
@@ -117,8 +115,7 @@ typedef enum OperandType {
             NSNumber *value = testVariableValues[obj];
             [stack replaceObjectAtIndex:i withObject:value];
         }
-        else{
-            //NSLog(@"for operations, do nothing");
+        else{//NSLog(@"for operations, do nothing");
         }
     }
     return [self popOperandOffStack:stack];
@@ -136,7 +133,6 @@ typedef enum OperandType {
 
 #pragma mark - Private Methods
 
-//?? can I use const?
 + (NSSet *)variablesUsedInProgram:(const id) program
 {
     NSSet * variables = nil;
@@ -235,7 +231,6 @@ typedef enum OperandType {
     return result;
 }
 
-//?? class method or instance method?
 + (int)differentiateOperation: (NSString*)operation
 {
     NSSet *oneOperandsOperaion = [NSSet setWithArray:@[@"sqrt",@"cos",@"sin"]];

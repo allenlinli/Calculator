@@ -399,9 +399,6 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="test2Values:" destination="2" eventType="touchUpInside" id="VqK-WB-ayN"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UWb-Rw-wry">
                                 <rect key="frame" x="159" y="369" width="69" height="42"/>
@@ -415,7 +412,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="test3Values:" destination="2" eventType="touchUpInside" id="7XJ-n5-H7L"/>
+                                    <action selector="testValuesPressed:" destination="2" eventType="touchUpInside" id="0D1-xq-pNW"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nyn-7K-9yx">
@@ -456,7 +453,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="test1Values:" destination="2" eventType="touchUpInside" id="ATk-Xz-mlr"/>
+                                    <action selector="testValuesPressed:" destination="2" eventType="touchUpInside" id="OLt-uv-DRE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FFA-Et-F8D">
@@ -471,7 +468,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="setTestValuesNil:" destination="2" eventType="touchUpInside" id="s3W-SV-bFb"/>
+                                    <action selector="setTestValuesNilPressed:" destination="2" eventType="touchUpInside" id="SPU-dj-Utu"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -487,6 +484,16 @@
             </objects>
         </scene>
     </scenes>
+    <classes>
+        <class className="CalculatorViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="testValues" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

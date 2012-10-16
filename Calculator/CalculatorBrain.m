@@ -15,7 +15,8 @@
 typedef enum OperandType {
     ZERO,
     ONE,
-    TWO
+    TWO,
+    STRING
 }OperandType;
 @end
 
@@ -67,9 +68,6 @@ typedef enum OperandType {
 
 - (void)pushOperand:(NSString*)operand
 {
-    if ([[self class] isVariable:operand]) {
-        [self.programStack addObject:operand];
-    }
     /*----  check operand is doubleValue ----*/
     //!! can be imperoved
     if ([operand doubleValue]!=0.0) {
@@ -78,6 +76,9 @@ typedef enum OperandType {
     }
     else if([operand isEqualToString:@"0"]){
         [self.programStack addObject:@([operand doubleValue])];
+    }
+    else{ //if it's variable
+        [self.programStack addObject:operand];
     }
 }
 
@@ -98,11 +99,9 @@ typedef enum OperandType {
     if ([program isKindOfClass:[NSArray class]]){
         stack = [program mutableCopy];
     }
-    else{
-        abort();
-    }
+    else abort();
     
-    /*------   variable substitude -------*/
+    /*------   variable substitude (without replacing origin program) -------*/
     //!! can be improved
     int stackLengh = [stack count];
     for (int i=0; i<stackLengh; i++) {
@@ -124,9 +123,14 @@ typedef enum OperandType {
     return [self popOperandOffStack:stack];
 }
 
-+ (NSString *)descriptionOfProgram:(id)program
++ (NSString *)descriptionOfProgram:(NSString *)program
 {
-    return [[self class] descriptionOfTopOfStack:program];
+    NSMutableArray *stack;
+    if ([program isKindOfClass:[NSArray class]]){
+        stack = [program mutableCopy];
+    }
+    else abort();
+    return [[self class] descriptionOfTopOfStack:stack];
 }
 
 #pragma mark - Private Methods
@@ -151,26 +155,12 @@ typedef enum OperandType {
     }
 }
 
-+ (BOOL)isVariable:(NSString *)operation
-{
-    NSSet *varialbe = [NSSet setWithArray:@[@"x",@"a",@"b"]];
-    if([operation isEqualToString:@"π"] ||
-       [varialbe containsObject:operation])
-    {
-        return YES;
-    }
-    else{
-        return NO;
-    }
-}
-
 + (NSString*)descriptionOfTopOfStack:(NSMutableArray *)stack
 {
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
     
     if ([topOfStack isKindOfClass:[NSNumber class]]) {
-        //[description stringByAppendingFormat:[NSString stringWithFormat:@"%@",topOfStack]];
         return [NSString stringWithFormat:@"%@",topOfStack];
     }
     else{
@@ -182,11 +172,9 @@ typedef enum OperandType {
                 }
                 return nil;
                 break;
-                
             case ONE:
                 return [NSString stringWithFormat:@"%@(%@)",operation,[self descriptionOfTopOfStack:stack]];
                 break;
-
             case TWO:
                 {
                     NSString *latterOne = [self descriptionOfTopOfStack:stack];
@@ -194,9 +182,12 @@ typedef enum OperandType {
                     return [NSString stringWithFormat:@"%@ %@ %@", formmerOne, operation, latterOne];
                 }
                 break;
-            
+            case STRING:
+                {
+                    return operation;
+                }
+                break;
             default:
-                NSLog(@"bug");
                 abort();
                 break;
         }
@@ -255,8 +246,10 @@ typedef enum OperandType {
     if([oneOperandsOperaion containsObject:operation]) return ONE;
     else if ([twoOperandsOperaion containsObject:operation]) return TWO;
     else if([zeroOperandsOperaion containsObject:operation]) return ZERO;
-    else    {NSLog(@"bug!!"); return -99;}
+    else if([operation isKindOfClass:[NSString class]]) return STRING;
+    else abort();
 }
+
 
 
 

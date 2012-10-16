@@ -87,17 +87,19 @@
         if(self.displayLastPressed!=0) [self enterPressed];
         double result = [self.brain performOperation:operation];
         self.display.text = [NSString stringWithFormat:@"%g", result];
+        self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
     }
 }
 
 - (IBAction)clearEverything {
     [self.brain clearStack];
-    self.display2.text = @"0";
+    self.description.text = @"0";
     self.display.text = @"0";
     self.display2LastPressed=0;
     self.displayLastPressed=0;
 }
 
+/*
 - (IBAction)displayAllOperations:(id)sender {
     NSString *digit;
     NSString *dot;
@@ -156,7 +158,7 @@
         self.display2LastPressed=1;
         self.display2.text = [self.display2.text stringByAppendingString:@" "];
     }
-}
+}*/
 
 - (IBAction)test1Values:(id)sender {
     [self.brain chooseVariablesValue:1];
@@ -180,6 +182,7 @@
 
 - (void)viewDidUnload {
     [self setTestValues:nil];
+    [self setDescription:nil];
     [super viewDidUnload];
 }
 @end

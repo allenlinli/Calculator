@@ -4,9 +4,9 @@ goal: assignment 2
 ///// Todo:
 
 ///// Backlog:
-consider parentheses. (e.g. sqrt((5 + 3)) is ugly)
-Add an Undo button to your calculator.
-
+1.consider parentheses. (e.g. sqrt((5 + 3)) is ugly)
+2.Add an Undo button to your calculator.
+3.implement π
 
 ///// Bug:
 

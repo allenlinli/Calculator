@@ -12,8 +12,14 @@
 @interface CalculatorViewController()
 @property (nonatomic, strong) CalculatorBrain *brain;
 @property (weak, nonatomic) IBOutlet UILabel *testValues;
-@property NSInteger display2LastPressed; //0 be initial, 1 be digit, 20 be dot, 21 be digit after dot 
-@property NSInteger displayLastPressed;  //0 be initial, 1 be digit, 20 be dot, 21 be digit after dot 
+@property NSInteger displayLastPressed;
+typedef enum DisplayState {
+    INITIAL,
+    ONLY_DIGIT,
+    DOT,
+    DIGIT_AFTER_DOT
+}DisplayState;
+
 @end
 
 @implementation CalculatorViewController
@@ -28,26 +34,25 @@
 - (IBAction)digitPressed:(UIButton *)sender {
     NSString *digit = [sender currentTitle];
     //initial zero, or intial but with digits covered
-    if(self.displayLastPressed==0){
+    if(self.displayLastPressed==INITIAL){
         if ([digit isEqualToString:@"0"]) {
             NSLog(@"extra 0, do nothing.");
         }
         else{
             self.display.text = digit;
-            self.displayLastPressed = 1;
+            self.displayLastPressed = ONLY_DIGIT;
         }
     }
     //self.userIsInTheMiddleOfEnteringANumber
-    else if(self.displayLastPressed==20 || self.displayLastPressed==21){
+    else if(self.displayLastPressed==DOT || self.displayLastPressed==DIGIT_AFTER_DOT){
         self.display.text = [self.display.text stringByAppendingString:digit];
-        self.displayLastPressed = 21;
+        self.displayLastPressed = DIGIT_AFTER_DOT;
     }
     else{
         self.display.text = [self.display.text stringByAppendingString:digit];
-        self.displayLastPressed = 1;
+        self.displayLastPressed = ONLY_DIGIT;
     }
 }
-
 
 - (IBAction)variablesPressed:(UIButton *)sender {
     [self enterPressed];
@@ -58,33 +63,32 @@
 }
 
 - (IBAction)floatPointPressed:(id)sender {
-    if (self.displayLastPressed==20 ||self.displayLastPressed==21) {     //if (_IsAfterFloatPoint){
-        //do nothing
+    if (self.displayLastPressed==DOT ||self.displayLastPressed==DIGIT_AFTER_DOT) {    
         NSLog(@"Can't type dot twice!");
     }
-    else if(self.displayLastPressed==1){      //else if(self.userIsInTheMiddleOfEnteringANumber){
-        self.displayLastPressed=20;
+    else if(self.displayLastPressed==ONLY_DIGIT){
+        self.displayLastPressed=DOT;
         self.display.text = [self.display.text stringByAppendingString:@"."];
     }
-    else if(self.displayLastPressed==0){
-        self.displayLastPressed=20; 
+    else if(self.displayLastPressed==INITIAL){
+        self.displayLastPressed=DOT; 
         self.display.text = @"0.";
     }
 }
 
 - (IBAction)enterPressed {
     [self.brain pushOperand:self.display.text];
-    self.displayLastPressed=0;
+    self.displayLastPressed=INITIAL;
 }
 
 - (IBAction)operationPressed:(id)sender {
     NSString *operation = [sender currentTitle];
-    if (self.displayLastPressed==20) {
+    if (self.displayLastPressed==DOT) {
         NSLog(@"Can't use in uncompleted digit!");
         return;
     }
     else {
-        if(self.displayLastPressed!=0) [self enterPressed];
+        if(self.displayLastPressed!=INITIAL) [self enterPressed];
         double result = [self.brain performOperation:operation];
         self.display.text = [NSString stringWithFormat:@"%g", result];
         self.description.text = [[self.brain class] descriptionOfProgram:self.brain.program];
@@ -95,8 +99,7 @@
     [self.brain clearStack];
     self.description.text = @"0";
     self.display.text = @"0";
-    self.display2LastPressed=0;
-    self.displayLastPressed=0;
+    self.displayLastPressed=INITIAL;
 }
 
 - (NSString *)showTestValues

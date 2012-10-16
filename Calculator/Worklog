@@ -4,6 +4,9 @@ goal: assignment 2
 ///// Todo:
 
 ///// Backlog:
+consider parentheses. (e.g. sqrt((5 + 3)) is ugly)
+Add an Undo button to your calculator.
+
 
 ///// Bug:
 

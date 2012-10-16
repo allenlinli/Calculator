@@ -99,86 +99,40 @@
     self.displayLastPressed=0;
 }
 
-/*
-- (IBAction)displayAllOperations:(id)sender {
-    NSString *digit;
-    NSString *dot;
-    NSString *operation;
-    NSString *input = [sender currentTitle];
-    
-    NSRange intRange = [@"0123456789" rangeOfString:input];
-    if(intRange.location!=NSNotFound){
-        digit = input; 
+- (NSString *)showTestValues
+{
+    NSString* shownVariables=@"";
+    NSSet *usedVariables = [[self.brain class] variablesUsedInProgram:self.brain.program];
+    if ([usedVariables containsObject:@"x"]) {
+        [shownVariables stringByAppendingFormat:@"x = %@ ", [self.brain.testVariableValues objectForKey:@"x"]];
     }
-    else if ([input isEqualToString:@"."]){
-        dot = input;
+    if ([usedVariables containsObject:@"a"]) {
+        [shownVariables stringByAppendingFormat:@"a = %@ ", [self.brain.testVariableValues objectForKey:@"a"]];
     }
-    else{
-        operation = input;
+    if ([usedVariables containsObject:@"b"]) {
+        [shownVariables stringByAppendingFormat:@"b = %@ ", [self.brain.testVariableValues objectForKey:@"b"]];
     }
-    
-    if (digit) {
-        if (self.display2LastPressed==0) {
-            if([digit isEqualToString:@"0"]){
-                NSLog(@"extra 0, do nothing.");
-            }
-            else{
-                self.display2.text = digit;
-                self.display2LastPressed=1;
-            }
-        }
-        else if (self.display2LastPressed==1){
-            self.display2.text = [self.display2.text stringByAppendingString:digit];
-        }
-        else if (self.display2LastPressed==20 || self.display2LastPressed==21){
-            self.display2.text = [self.display2.text stringByAppendingString:digit];
-            self.display2LastPressed=21;
-        }
-    }
-    else if(dot){
-        if(self.display2LastPressed==20 || self.display2LastPressed==21){
-            NSLog(@"can not enter dot twice");
-        }
-        else if(self.display2LastPressed==1){
-            self.display2.text = [self.display2.text stringByAppendingString:@"."];
-            self.display2LastPressed=20;
-        }
-        else if(self.display2LastPressed==0){
-            self.display2.text = @"0.";
-            self.display2LastPressed=21;
-        }
-    }
-    else if(operation && ![operation isEqualToString:@"Enter"]){
-        //?? may can be improved
-        self.display2.text = [self.display2.text stringByAppendingString:@" "];
-        self.display2.text = [self.display2.text stringByAppendingString:operation];
-        self.display2.text = [self.display2.text stringByAppendingString:@" "];
-    }
-    else if([operation isEqualToString:@"Enter"]){
-        self.display2LastPressed=1;
-        self.display2.text = [self.display2.text stringByAppendingString:@" "];
-    }
-}*/
+    return shownVariables;
+}
 
 - (IBAction)test1Values:(id)sender {
     [self.brain chooseVariablesValue:1];
-    NSArray *array = [self.brain.testVariableValues allValues];
-    self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
+    self.testValues.text = [self showTestValues];
 }
-
 
 - (IBAction)test2Values:(id)sender {
     [self.brain chooseVariablesValue:2];
-    NSArray *array = [self.brain.testVariableValues allValues];
-    self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
+    self.testValues.text = [self showTestValues];
 }
 
 - (IBAction)test3Values:(id)sender {
     [self.brain chooseVariablesValue:3];
-    NSArray *array = [self.brain.testVariableValues allValues];
-    self.testValues.text = [NSString stringWithFormat:@"x=%@ , a=%@ , b=%@", array[0],array[1], array[2]];
+    self.testValues.text = [self showTestValues];
 }
 
+- (IBAction)setTestValuesNil:(id)sender {
+    [self.brain setTestVariableValues:nil];
+}
 
 - (void)viewDidUnload {
     [self setTestValues:nil];

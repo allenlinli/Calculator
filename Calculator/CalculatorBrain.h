@@ -17,6 +17,8 @@
 - (void)clearStack;
 - (void)chooseVariablesValue:(int)testSetNum;
 - (NSDictionary *)testVariableValues;
+- (void)setTestVariableValues:(NSDictionary *)dic;
++ (NSSet *)variablesUsedInProgram:(const id) program;
 
 + (double)runProgram:(id)program usingVariablesValue:(NSDictionary *)testVariableValues;
 + (NSString *)descriptionOfProgram:(id)program;

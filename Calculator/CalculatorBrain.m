@@ -12,6 +12,7 @@
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *programStack;
 @property (nonatomic, strong) NSDictionary* testVariableValues;
+//@property int lastOperationPrecedence;
 typedef enum OperandType {
     ZERO,
     ONE,
@@ -183,9 +184,7 @@ typedef enum OperandType {
                 }
                 break;
             case STRING:
-                {
                     return operation;
-                }
                 break;
             default:
                 abort();
